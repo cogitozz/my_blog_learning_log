@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% extends 'blog/base.html' %}
+    {% block content %}
+        {% if form.errors %}
+            <p>Your username and password didn't match.Please try again.</p>
+        {% endif %}
+{#        要让登录视图处理表单，因此将实参action 设置为登录页面的URL#}
+        <form method="post" action="{% url 'users:login' %}">
+            {% csrf_token %}
+
+{#            登录视图将一个表单发送给模板，在模板中，显示这个表单#}
+            {{ form.as_p }}
+        <button name="submit">login</button>
+        <input type="hidden" name="next" value="{% url 'blog:index' %}"/>
+{#        包含了一个隐藏的表单元素——'next' ，其中的实参value 告诉Django在用户成功登录后将其重定向到什么地方——在这里是主页。#}
+        </form>
+    {% endblock content %}
+</body>
+</html>
